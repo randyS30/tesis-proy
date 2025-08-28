@@ -1,0 +1,108 @@
+.exp-container {
+  background: #fff;
+  padding: 20px;
+  border-radius: 6px;
+  max-width: 1000px;
+  margin: auto;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.exp-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.exp-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.exp-table th,
+.exp-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+.exp-table th {
+  background: #f4f4f4;
+}
+
+/* Contenedor y header ya los tenías, añadimos filtros y botones extra */
+.exp-filters {
+  border: 1px solid #eee;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 14px;
+  background: #faf7f5; /* crema suave */
+}
+
+.exp-filters .row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.exp-filters .row.right {
+  justify-content: flex-end;
+  margin-bottom: 0;
+}
+
+.exp-filters .col {
+  display: flex;
+  flex-direction: column;
+  min-width: 200px;
+  flex: 1;
+}
+
+.exp-filters label {
+  font-size: 12px;
+  color: #555;
+  margin-bottom: 4px;
+}
+
+.exp-filters input[type="text"],
+.exp-filters input[type="date"],
+.exp-filters select {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 6px 8px;
+  font-size: 14px;
+  background: #fff;
+}
+
+/* Botones (con tu esquema de colores) */
+.btn {
+  display: inline-block;
+  padding: 6px 12px;
+  margin: 2px;
+  border-radius: 4px;
+  text-decoration: none;
+  color: white;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-success { background-color: #800000; } /* vino USMP */
+.btn-primary { background-color: #004080; }
+.btn-warning { background-color: #cc8800; }
+.btn-secondary { background-color: #666; }
+
+.btn:hover { opacity: 0.92; }
+
+.btn-link {
+  color: #004080;
+  text-decoration: underline;
+  background: none;
+  padding: 0;
+}
+
+/* Tabla ya la tenías; agrego hover suave */
+.exp-table tbody tr:hover {
+  background: #f9f0f0; /* toque hacia vino claro */
+}
+
