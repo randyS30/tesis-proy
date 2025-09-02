@@ -144,3 +144,197 @@ h2, h3 {
   background: #f8d7da;
   color: #721c24;
 }
+/*  Botones */
+.btn {
+  display: inline-block;
+  background-color: #7b1113; /* Vino USMP */
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.btn:hover {
+  background-color: #5a0c0e;
+}
+
+.btn-secondary {
+  background-color: #f5f5dc; /* Crema */
+  color: #7b1113;
+}
+
+.btn-secondary:hover {
+  background-color: #e6e6c4;
+}
+
+/* Tabs */
+.tab-btn {
+  padding: 8px 16px;
+  border: 1px solid #ddd;
+  background: #f9f9f9;
+  cursor: pointer;
+  border-radius: 6px 6px 0 0;
+  margin-right: 4px;
+  font-weight: 500;
+}
+
+.tab-btn.active {
+  background: #7b1113;
+  color: white;
+  border-bottom: 2px solid #5a0c0e;
+}
+
+/*  Secciones */
+.card {
+  background: #fdfdfd;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+/* Botones */
+.btn {
+  background-color: #7a1c1c;
+  color: white;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+.btn:hover {
+  background-color: #a32c2c;
+}
+
+.btn-secondary {
+  background-color: #ccc;
+  color: black;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-secondary:hover {
+  background-color: #bbb;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+.tabs button {
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  background: #f5f5f5;
+  cursor: pointer;
+}
+.tabs button.active {
+  background: #7a1c1c;
+  color: white;
+}
+
+/* Card */
+.card {
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+/* Modal */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+}
+.modal-content input,
+.modal-content textarea {
+  width: 100%;
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+  padding: 8px;
+  border-radius: 4px;
+}
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+.table th, .table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+.table th {
+  background: #7a1c1c;
+  color: white;
+}
+
+.table tr:nth-child(even) {
+  background: #f9f9f9;
+}
+/* Layout */
+.page { max-width: 1100px; margin: 0 auto; padding: 16px; }
+
+/* Cards */
+.card { background:#fff; border:1px solid #e6e6e6; border-radius:12px; padding:16px; margin-bottom:16px; }
+.card-header { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px; }
+.actions { display:flex; gap:8px; }
+
+/* Tabs */
+.tabs { display:flex; gap:8px; margin:12px 0; }
+.tab { border:1px solid #b7082f; background:#fff; color:#b7082f; padding:8px 14px; border-radius:999px; cursor:pointer; }
+.tab.active { background:#b7082f; color:#fff; }
+
+/* Table */
+.table-wrap { overflow:auto; }
+.table { width:100%; border-collapse:collapse; }
+.table th, .table td { border-bottom:1px solid #eee; padding:10px; text-align:left; }
+.table .muted { color:#777; text-align:center; }
+
+/* Buttons (USMP vino/crema) */
+.btn { background:#b7082f; color:#fff; border:none; padding:8px 14px; border-radius:8px; cursor:pointer; text-decoration:none; display:inline-block; }
+.btn:hover { opacity:.9; }
+.btn-secondary { background:#6c757d; color:#fff; }
+.btn-light { background:#f5f0e6; color:#5a2a2a; border:1px solid #eadfd0; }
+.btn-danger { background:#c82333; color:#fff; }
+
+/* Info grid */
+.info-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:10px; }
+@media (max-width: 900px){ .info-grid{ grid-template-columns:1fr; } }
+
+/* Modal */
+.modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,.35); display:flex; align-items:center; justify-content:center; z-index:1000; }
+.modal-content { background:#fff; border-radius:12px; box-shadow:0 10px 30px rgba(0,0,0,.2); max-width:95vw; }
+.modal-header { display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #eee; padding:12px 16px; }
+.modal-body { padding:16px; }
+
+/* Forms */
+.form-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.form-grid .full { grid-column:1 / -1; }
+.form-grid input, .form-grid textarea, .form-grid select {
+  width:100%; padding:8px 10px; border:1px solid #ddd; border-radius:8px; outline:none;
+}
+.form-actions { grid-column:1 / -1; display:flex; justify-content:flex-end; gap:8px; margin-top:8px; }

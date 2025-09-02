@@ -27,3 +27,27 @@
   font-size: 16px;
   color: #800000;
 }
+.indicators {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.indicators .card {
+  padding: 16px;
+  text-align: center;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.indicators .card h4 {
+  margin-bottom: 8px;
+  color: #555;
+}
+
+.indicators .card p {
+  font-size: 1.5em;
+  font-weight: bold;
+}

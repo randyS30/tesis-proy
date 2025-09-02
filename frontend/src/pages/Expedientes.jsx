@@ -161,7 +161,7 @@ const Expedientes = () => {
                         Ver
                       </Link>
                       <Link
-                        to={`/expedientes/editar/${exp.id}`}
+                        to={`/expedientes/${exp.id}`}
                         className="btn btn-warning"
                       >
                         Editar

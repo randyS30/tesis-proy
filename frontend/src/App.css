@@ -144,3 +144,23 @@ h2, h3 {
   background: #f8d7da;
   color: #721c24;
 }
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+.table th, .table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+.table th {
+  background: #7a1c1c;
+  color: white;
+}
+
+.table tr:nth-child(even) {
+  background: #f9f9f9;
+}

@@ -20,7 +20,7 @@ export default function Login() {
       if (!res.ok) throw new Error("Credenciales inválidas");
 
       const data = await res.json();
-      alert(`✅ Bienvenido ${data.user.nombre}`);
+      alert(`Bienvenido ${data.user.nombre}`);
       navigate("/dashboard"); // 👉 Redirige al inicio
     } catch (err) {
       setError(err.message);

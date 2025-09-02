@@ -11,6 +11,7 @@ import CrearExpediente from "./pages/CrearExpediente.jsx";
 import '../src/Index.css';
 import MainLayout from "./layouts/MainLayout";
 import ExpedienteDetalle from "./pages/ExpedienteDetalle.jsx";
+import ExpedientesList from "./pages/ExpedientesLista.jsx";
 
 
 ReactDOM.createRoot(document.getElementById("root")).render(
@@ -19,6 +20,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <Routes>
         <Route path="/" element={<MainLayout />}>
         <Route path="/" element={<Login />} />
+        <Route path="/" element={<ExpedientesList />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/expedientes" element={<Expedientes />} />
         <Route path="/usuarios" element={<Usuarios />} />
