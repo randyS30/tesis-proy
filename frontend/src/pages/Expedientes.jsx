@@ -2,18 +2,18 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Expedientes.css";
 
+const API = "http://localhost:4000";
+
 const Expedientes = () => {
   const [expedientes, setExpedientes] = useState([]);
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState("");
 
-  // Filtros
   const [q, setQ] = useState("");
   const [estado, setEstado] = useState("");
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
 
-  // Construir query string seguro
   const queryString = useMemo(() => {
     const p = new URLSearchParams();
     if (q) p.set("q", q);
@@ -23,12 +23,11 @@ const Expedientes = () => {
     return p.toString() ? "?" + p.toString() : "";
   }, [q, estado, from, to]);
 
-  // Búsqueda con debounce ligero
   useEffect(() => {
     const t = setTimeout(() => {
       setLoading(true);
       setErr("");
-      fetch("http://localhost:4000/api/expedientes" + queryString)
+      fetch(`${API}/api/expedientes${queryString}`)
         .then((r) => r.json())
         .then((data) => {
           if (data.success && Array.isArray(data.expedientes)) {
@@ -54,6 +53,22 @@ const Expedientes = () => {
     setEstado("");
     setFrom("");
     setTo("");
+  };
+
+  const analizarExpedienteIA = async (id) => {
+    try {
+      const r = await fetch(`${API}/api/expedientes/${id}/analizar`, {
+        method: "POST",
+      }).then((res) => res.json());
+      if (r.success) {
+        alert("✅ Análisis generado y guardado en reportes");
+      } else {
+        alert("❌ No se pudo analizar");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error en análisis IA");
+    }
   };
 
   return (
@@ -88,19 +103,11 @@ const Expedientes = () => {
           </div>
           <div className="col">
             <label>Desde</label>
-            <input
-              type="date"
-              value={from}
-              onChange={(e) => setFrom(e.target.value)}
-            />
+            <input type="date" value={from} onChange={(e) => setFrom(e.target.value)} />
           </div>
           <div className="col">
             <label>Hasta</label>
-            <input
-              type="date"
-              value={to}
-              onChange={(e) => setTo(e.target.value)}
-            />
+            <input type="date" value={to} onChange={(e) => setTo(e.target.value)} />
           </div>
         </div>
         <div className="row right">
@@ -144,14 +151,22 @@ const Expedientes = () => {
                     <td>{exp.fecha_fin ? exp.fecha_fin.slice(0, 10) : "—"}</td>
                     <td>
                       {exp.archivo ? (
-                        <a
-                          href={`http://localhost:4000/uploads/${exp.archivo}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="btn btn-link"
-                        >
-                          Ver archivo
-                        </a>
+                        <>
+                          <a
+                            href={`${API}/uploads/${exp.archivo}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="btn btn-link"
+                          >
+                            Ver archivo
+                          </a>
+                          <button
+                            className="btn btn-warning"
+                            onClick={() => analizarExpedienteIA(exp.id)}
+                          >
+                            Analizar IA
+                          </button>
+                        </>
                       ) : (
                         "—"
                       )}
@@ -159,12 +174,6 @@ const Expedientes = () => {
                     <td>
                       <Link to={`/expedientes/${exp.id}`} className="btn btn-primary">
                         Ver
-                      </Link>
-                      <Link
-                        to={`/expedientes/${exp.id}`}
-                        className="btn btn-warning"
-                      >
-                        Editar
                       </Link>
                     </td>
                   </tr>

@@ -28,7 +28,7 @@ export default function ExpedienteDetalle() {
   const [editReporte, setEditReporte] = useState(null);
   const [reporteForm, setReporteForm] = useState({
     contenido: "",
-    generado_por: 1, // simula usuario logueado
+    generado_por: "usuario_demo",
   });
 
   // ===================== ARCHIVOS =====================
@@ -93,8 +93,6 @@ export default function ExpedienteDetalle() {
             prev.map((x) => (x.id === editEvento.id ? r.evento : x))
           );
           setOpenEvento(false);
-        } else {
-          alert("No se pudo editar");
         }
       } else {
         const r = await fetch(`${API}/api/expedientes/${id}/eventos`, {
@@ -105,8 +103,6 @@ export default function ExpedienteDetalle() {
         if (r.success) {
           setEventos((prev) => [r.evento, ...prev]);
           setOpenEvento(false);
-        } else {
-          alert("No se pudo crear");
         }
       }
     } catch (err) {
@@ -127,12 +123,12 @@ export default function ExpedienteDetalle() {
   // ===================== REPORTES CRUD =====================
   const abrirNuevoReporte = () => {
     setEditReporte(null);
-    setReporteForm({ contenido: "", generado_por: 1 });
+    setReporteForm({ contenido: "", generado_por: "usuario_demo" });
     setOpenReporte(true);
   };
   const abrirEditarReporte = (rp) => {
     setEditReporte(rp);
-    setReporteForm({ contenido: rp.contenido, generado_por: rp.generado_por || 1 });
+    setReporteForm({ contenido: rp.contenido, generado_por: rp.generado_por });
     setOpenReporte(true);
   };
   const guardarReporte = async (e) => {
@@ -149,8 +145,6 @@ export default function ExpedienteDetalle() {
             prev.map((x) => (x.id === editReporte.id ? r.reporte : x))
           );
           setOpenReporte(false);
-        } else {
-          alert("No se pudo editar");
         }
       } else {
         const r = await fetch(`${API}/api/expedientes/${id}/reportes`, {
@@ -161,8 +155,6 @@ export default function ExpedienteDetalle() {
         if (r.success) {
           setReportes((prev) => [r.reporte, ...prev]);
           setOpenReporte(false);
-        } else {
-          alert("No se pudo crear");
         }
       }
     } catch (err) {
@@ -191,7 +183,7 @@ export default function ExpedienteDetalle() {
     for (let f of filesToUpload) {
       formData.append("archivos", f);
     }
-    formData.append("subido_por", "admin");
+    formData.append("subido_por", "usuario_demo");
 
     try {
       const r = await fetch(`${API}/api/expedientes/${id}/archivos`, {
@@ -199,11 +191,9 @@ export default function ExpedienteDetalle() {
         body: formData,
       }).then((r) => r.json());
       if (r.success) {
-        setArchivos((prev) => [...r.archivos, ...prev]);
+        setArchivos((prev) => [...prev, ...r.archivos]);
         setOpenArchivo(false);
         setFilesToUpload(null);
-      } else {
-        alert("No se pudo subir");
       }
     } catch (err) {
       console.error(err);
@@ -217,6 +207,30 @@ export default function ExpedienteDetalle() {
       if (r.success) setArchivos((prev) => prev.filter((x) => x.id !== archivoId));
     } catch (err) {
       console.error(err);
+    }
+  };
+  const analizarArchivo = async (archivoId) => {
+    try {
+      const r = await fetch(`${API}/api/archivos/${archivoId}/analizar`, { method: "POST" }).then((r) => r.json());
+      if (r.success) {
+        setReportes((prev) => [r.reporte, ...prev]);
+        alert("✅ Análisis generado con IA");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error analizando archivo con IA");
+    }
+  };
+  const analizarExpediente = async () => {
+    try {
+      const r = await fetch(`${API}/api/expedientes/${id}/analizar`, { method: "POST" }).then((r) => r.json());
+      if (r.success) {
+        setReportes((prev) => [r.reporte, ...prev]);
+        alert("✅ Análisis general generado con IA");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error analizando expediente con IA");
     }
   };
 
@@ -238,6 +252,9 @@ export default function ExpedienteDetalle() {
                 Ver archivo
               </a>
             )}
+            <button className="btn btn-success" onClick={analizarExpediente}>
+              🔎 Analizar Expediente con IA
+            </button>
             <Link className="btn" to="/expedientes">Volver</Link>
           </div>
         </div>
@@ -258,7 +275,7 @@ export default function ExpedienteDetalle() {
         <button className={`tab ${tab === "archivos" ? "active" : ""}`} onClick={() => setTab("archivos")}>Archivos</button>
       </div>
 
-      {/* ===================== TAB EVENTOS ===================== */}
+      {/* TAB EVENTOS */}
       {tab === "eventos" && (
         <div className="card">
           <div className="card-header">
@@ -298,7 +315,7 @@ export default function ExpedienteDetalle() {
         </div>
       )}
 
-      {/* ===================== TAB REPORTES ===================== */}
+      {/* TAB REPORTES */}
       {tab === "reportes" && (
         <div className="card">
           <div className="card-header">
@@ -338,7 +355,7 @@ export default function ExpedienteDetalle() {
         </div>
       )}
 
-      {/* ===================== TAB ARCHIVOS ===================== */}
+      {/* TAB ARCHIVOS */}
       {tab === "archivos" && (
         <div className="card">
           <div className="card-header">
@@ -353,7 +370,7 @@ export default function ExpedienteDetalle() {
                   <th>Nombre</th>
                   <th>Subido por</th>
                   <th>Fecha</th>
-                  <th style={{width:160}}>Acciones</th>
+                  <th style={{width:220}}>Acciones</th>
                 </tr>
               </thead>
               <tbody>
@@ -372,6 +389,9 @@ export default function ExpedienteDetalle() {
                          target="_blank" rel="noreferrer">
                         Descargar
                       </a>
+                      <button className="btn btn-warning" onClick={() => analizarArchivo(ar.id)}>
+                        🔎 Analizar con IA
+                      </button>
                       <button className="btn btn-danger" onClick={() => eliminarArchivo(ar.id)}>Eliminar</button>
                     </td>
                   </tr>
@@ -382,7 +402,7 @@ export default function ExpedienteDetalle() {
         </div>
       )}
 
-      {/* ===================== MODAL EVENTO ===================== */}
+      {/* MODALES */}
       <Modal open={openEvento} onClose={() => setOpenEvento(false)} title={editEvento ? "Editar evento" : "Nuevo evento"} width={520}>
         <form onSubmit={guardarEvento} className="form-grid">
           <label>
@@ -397,7 +417,6 @@ export default function ExpedienteDetalle() {
           <label className="full">
             <span>Descripción</span>
             <textarea
-              rows={3}
               value={eventoForm.descripcion}
               onChange={(e) => setEventoForm({ ...eventoForm, descripcion: e.target.value })}
             />
@@ -411,42 +430,38 @@ export default function ExpedienteDetalle() {
               required
             />
           </label>
-          <div className="form-actions">
-            <button type="button" className="btn btn-light" onClick={() => setOpenEvento(false)}>Cancelar</button>
-            <button type="submit" className="btn">{editEvento ? "Guardar cambios" : "Crear"}</button>
+          <div className="actions">
+            <button type="submit" className="btn btn-primary">Guardar</button>
+            <button type="button" className="btn" onClick={() => setOpenEvento(false)}>Cancelar</button>
           </div>
         </form>
       </Modal>
 
-      {/* ===================== MODAL REPORTE ===================== */}
-      <Modal open={openReporte} onClose={() => setOpenReporte(false)} title={editReporte ? "Editar reporte" : "Nuevo reporte"} width={600}>
+      <Modal open={openReporte} onClose={() => setOpenReporte(false)} title={editReporte ? "Editar reporte" : "Nuevo reporte"} width={520}>
         <form onSubmit={guardarReporte} className="form-grid">
           <label className="full">
             <span>Contenido *</span>
             <textarea
-              rows={6}
               value={reporteForm.contenido}
               onChange={(e) => setReporteForm({ ...reporteForm, contenido: e.target.value })}
               required
             />
           </label>
-          <div className="form-actions">
-            <button type="button" className="btn btn-light" onClick={() => setOpenReporte(false)}>Cancelar</button>
-            <button type="submit" className="btn">{editReporte ? "Guardar cambios" : "Crear"}</button>
+          <div className="actions">
+            <button type="submit" className="btn btn-primary">Guardar</button>
+            <button type="button" className="btn" onClick={() => setOpenReporte(false)}>Cancelar</button>
           </div>
         </form>
       </Modal>
 
-      {/* ===================== MODAL ARCHIVOS ===================== */}
-      <Modal open={openArchivo} onClose={() => setOpenArchivo(false)} title="Subir archivos" width={500}>
+      <Modal open={openArchivo} onClose={() => setOpenArchivo(false)} title="Subir archivos" width={480}>
         <form onSubmit={subirArchivos} className="form-grid">
           <label className="full">
-            <span>Selecciona archivo(s)</span>
             <input type="file" multiple onChange={(e) => setFilesToUpload(e.target.files)} />
           </label>
-          <div className="form-actions">
-            <button type="button" className="btn btn-light" onClick={() => setOpenArchivo(false)}>Cancelar</button>
-            <button type="submit" className="btn">Subir</button>
+          <div className="actions">
+            <button type="submit" className="btn btn-primary">Subir</button>
+            <button type="button" className="btn" onClick={() => setOpenArchivo(false)}>Cancelar</button>
           </div>
         </form>
       </Modal>
