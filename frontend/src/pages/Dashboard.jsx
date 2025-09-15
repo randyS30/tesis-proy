@@ -21,47 +21,50 @@ const Dashboard = () => {
   const [porMes, setPorMes] = useState([]);
 
   useEffect(() => {
-    // Cargar resumen numérico
-    fetch("http://localhost:4000/api/dashboard/resumen")
-      .then(r => r.json())
-      .then(d => {
-        if (d.success) setResumen(d.resumen);
-      })
-      .catch(err => console.error("Error cargando resumen:", err));
+  const token = localStorage.getItem("token");
 
-    // Cargar expedientes por estado y usuario
-    fetch("http://localhost:4000/api/reportes")
-      .then(r => r.json())
-      .then(d => {
-        if (d.success) {
-          const est = d.porEstado.map(e => ({
+  // si no hay token, redirigimos al login
+  if (!token) {
+    window.location.href = "/login";
+    return;
+  }
+
+  // Cargar dashboard (resumen + estado + usuario)
+  fetch("http://localhost:4000/api/dashboard", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((r) => r.json())
+    .then((d) => {
+      if (d.success) {
+        const { indicadores, porEstado, porUsuario } = d;
+
+        setResumen({
+          total: indicadores.total || 0,
+          abiertos: (indicadores.total || 0) - (indicadores.cerrados || 0),
+          cerrados: indicadores.cerrados || 0,
+          usuarios: porUsuario.length || 0,
+        });
+
+        setPorEstado(
+          porEstado.map((e) => ({
             estado: e.estado || "Sin estado",
-            total: parseInt(e.total, 10) || 0
-          }));
-          const usu = d.porUsuario.map(u => ({
-            usuario: u.usuario || u.creado_por || "Desconocido",
-            total: parseInt(u.total, 10) || 0
-          }));
-          setPorEstado(est);
-          setPorUsuario(usu);
-        }
-      })
-      .catch(err => console.error("Error cargando estado/usuario:", err));
+            total: parseInt(e.total, 10) || 0,
+          }))
+        );
 
-    // Cargar expedientes por mes
-    fetch("http://localhost:4000/api/dashboard/mes")
-      .then(r => r.json())
-      .then(d => {
-        if (d.success) {
-          const mes = d.data.map(m => ({
-            mes: m.mes,
-            total: parseInt(m.total, 10) || 0
-          }));
-          setPorMes(mes);
-        }
-      })
-      .catch(err => console.error("Error cargando por mes:", err));
-  }, []);
+        setPorUsuario(
+          porUsuario.map((u) => ({
+            usuario: u.usuario || "Desconocido",
+            total: parseInt(u.total, 10) || 0,
+          }))
+        );
+      }
+    })
+    .catch((err) => console.error("Error cargando dashboard:", err));
+}, []);
+
 
   return (
     <div className="dash-container">

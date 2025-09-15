@@ -17,11 +17,19 @@ export default function Login() {
         body: JSON.stringify({ email, password }),
       });
 
-      if (!res.ok) throw new Error("Credenciales inválidas");
-
       const data = await res.json();
+      if (!res.ok || !data.success) {
+        throw new Error(data.message || "Credenciales inválidas");
+      }
+
+      // 👉 Guardamos token y user en localStorage
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+
       alert(`Bienvenido ${data.user.nombre}`);
-      navigate("/dashboard"); // 👉 Redirige al inicio
+
+      // Redirige al dashboard
+      navigate("/dashboard");
     } catch (err) {
       setError(err.message);
     }
@@ -31,7 +39,7 @@ export default function Login() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-500 to-indigo-600">
       <div className="bg-white p-8 rounded-2xl shadow-md w-full max-w-sm">
         <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">
-           Sistema Judicial
+          Sistema Judicial
         </h1>
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div>

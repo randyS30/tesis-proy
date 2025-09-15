@@ -1,0 +1,74 @@
+/* Base estilo */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0.6rem 1.2rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Variantes */
+.btn-primary {
+  background-color: #800000;
+  color: #fff;
+}
+.btn-primary:hover:not(:disabled) {
+  background-color: #800000;
+}
+
+.btn-success {
+  background-color: #28a745;
+  color: #fff;
+}
+.btn-success:hover:not(:disabled) {
+  background-color: #218838;
+}
+
+.btn-danger {
+  background-color: #800000;
+  color: #fff;
+}
+.btn-danger:hover:not(:disabled) {
+  background-color: #800000;
+}
+
+.btn-secondary {
+  background-color: #f0f0f0;
+  color: #333;
+}
+.btn-secondary:hover:not(:disabled) {
+  background-color: #e0e0e0;
+}
+
+/* Ancho completo */
+.btn-block {
+  width: 100%;
+}
+
+/* Spinner */
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

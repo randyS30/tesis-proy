@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Button from "../components/Button";
 
 const CrearExpediente = () => {
   const [formData, setFormData] = useState({
@@ -127,14 +128,13 @@ const CrearExpediente = () => {
               value={formData.demandante_doc}
               onChange={(e) => setFormData({ ...formData, demandante_doc: e.target.value })}
             />
-            <button
-              type="button"
+            <Button
+              variant="primary"
               onClick={() => consultarReniec("demandante")}
-              className="bg-blue-600 text-white px-3 rounded"
-              disabled={loading}
+              loading={loading}
             >
               {loading ? "..." : "Buscar"}
-            </button>
+            </Button>
           </div>
 
           {/* Nombre largo */}
@@ -166,14 +166,13 @@ const CrearExpediente = () => {
               value={formData.demandado_doc}
               onChange={(e) => setFormData({ ...formData, demandado_doc: e.target.value })}
             />
-            <button
-              type="button"
+            <Button
+              variant="primary"
               onClick={() => consultarReniec("demandado")}
-              className="bg-blue-600 text-white px-3 rounded"
               disabled={loading}
             >
               {loading ? "..." : "Buscar"}
-            </button>
+            </Button>
           </div>
 
           <input
@@ -230,9 +229,9 @@ const CrearExpediente = () => {
           onChange={(e) => setFormData({ ...formData, archivo: e.target.files[0] })}
         />
 
-        <button type="submit" className="w-full bg-green-600 text-white p-2 rounded">
+        <Button type="submit" className="w-full bg-green-600 text-white p-2 rounded">
           Crear Expediente
-        </button>
+        </Button>
       </form>
     </div>
   );

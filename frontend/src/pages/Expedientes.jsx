@@ -24,10 +24,17 @@ const Expedientes = () => {
   }, [q, estado, from, to]);
 
   useEffect(() => {
+    const token = localStorage.getItem("token"); // recuperar token
+
     const t = setTimeout(() => {
       setLoading(true);
       setErr("");
-      fetch(`${API}/api/expedientes${queryString}`)
+      fetch(`${API}/api/expedientes${queryString}`, {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`, //  enviar token
+        },
+      })
         .then((r) => r.json())
         .then((data) => {
           if (data.success && Array.isArray(data.expedientes)) {
@@ -57,8 +64,12 @@ const Expedientes = () => {
 
   const analizarExpedienteIA = async (id) => {
     try {
+      const token = localStorage.getItem("token"); // también aquí
       const r = await fetch(`${API}/api/expedientes/${id}/analizar`, {
         method: "POST",
+        headers: {
+          "Authorization": `Bearer ${token}`, //  enviar token
+        },
       }).then((res) => res.json());
       if (r.success) {
         alert("✅ Análisis generado y guardado en reportes");
